@@ -1,34 +1,59 @@
+#include <stdlib.h>
+#include <string.h>
 #include <stdio.h>
 #include "hspcksum.h"
 #include "sha1.h"
 
 extern char hashbuf[256];
 
-/* SHA1 ハッシュ計算 */
-char* sha1calc(unsigned char *inbuf, size_t bufsize)
+/* Padding */
+size_t padding(unsigned char *workbuf, unsigned char *inbuf, size_t bufsize, bool endian)
 {
-	/* Initialize */
-	unsigned int hash[10] = {0x67452301, 0, 0xefcdab89, 0, 0x98badcfe, 0, 0x10325476, 0, 0xc3d2e1f0, 0}; /*オーバーフロー対策のため1ワード置きに使用*/
 	size_t work_size = bufsize;
-	unsigned char *workbuf = (unsigned char *)malloc(bufsize + 128);
-	unsigned int pos; unsigned int ChunkDat[80]; int i;
-	unsigned int whash[10], f, k, t;
+	FILE *debugbuf = fopen("debug.buf", "w");
 
-	/* Padding */
 	memset(workbuf, 0, sizeof(*workbuf));
 	memcpy(workbuf, inbuf, bufsize);
 	workbuf[work_size] = 0x80; work_size++;
 	while ((work_size % 64) != 56) {
 		workbuf[work_size] = 0; work_size++;
 	}
-	workbuf[work_size + 7] = (int)(bufsize<<3) & 0xff; /* Size is given in 32 bits */
-	workbuf[work_size + 6] = (int)(bufsize>>5) & 0xff;
-	workbuf[work_size + 5] = (int)(bufsize>>13) & 0xff;
-	workbuf[work_size + 4] = (int)(bufsize>>21) & 0xff;
-	workbuf[work_size + 3] = (int)(bufsize>>29) & 0xff;
-	workbuf[work_size + 2] = 0;
-	workbuf[work_size + 1] = 0; workbuf[work_size + 0] = 0;
+	if (endian) {
+		/* Big endian */
+		workbuf[work_size + 7] = (int)(bufsize<<3) & 0xff; /* Size is given in 32 bits */
+		workbuf[work_size + 6] = (int)(bufsize>>5) & 0xff;
+		workbuf[work_size + 5] = (int)(bufsize>>13) & 0xff;
+		workbuf[work_size + 4] = (int)(bufsize>>21) & 0xff;
+		workbuf[work_size + 3] = (int)(bufsize>>29) & 0xff;
+		workbuf[work_size + 2] = 0;
+		workbuf[work_size + 1] = 0; workbuf[work_size + 0] = 0;
+	} else {
+		/* Little endian */
+		workbuf[work_size + 0] = (int)(bufsize<<3) & 0xff; /* Size is given in 32 bits */
+		workbuf[work_size + 1] = (int)(bufsize>>5) & 0xff;
+		workbuf[work_size + 2] = (int)(bufsize>>13) & 0xff;
+		workbuf[work_size + 3] = (int)(bufsize>>21) & 0xff;
+		workbuf[work_size + 4] = (int)(bufsize>>29) & 0xff;
+		workbuf[work_size + 5] = 0;
+		workbuf[work_size + 6] = 0; workbuf[work_size + 7] = 0;
+	}
 	work_size += 8;
+
+	fwrite(workbuf, 1, work_size, debugbuf);
+	fclose(debugbuf);
+
+	return work_size;
+}
+
+/* SHA1 ハッシュ計算 */
+char* sha1calc(unsigned char *inbuf, size_t bufsize)
+{
+	/* Initialize */
+	unsigned int hash[10] = {0x67452301, 0, 0xefcdab89, 0, 0x98badcfe, 0, 0x10325476, 0, 0xc3d2e1f0, 0}; /*オーバーフロー対策のため1ワード置きに使用*/
+	unsigned char *workbuf = (unsigned char *)malloc(bufsize + 128);
+	size_t work_size = padding(workbuf, inbuf, bufsize, true);
+	unsigned int pos; unsigned int ChunkDat[80]; int i;
+	unsigned int whash[10], f, k, t;
 
 	/* Processing */
 	for (pos = 0; pos < work_size; pos += 64) {

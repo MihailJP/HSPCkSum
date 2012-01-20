@@ -1,9 +1,9 @@
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 #include <stdlib.h>
-#include <string.h>
 #include "hsp3plugin.h"
 #include "sha1.h"
+#include "md5.h"
 #include "hspcksum.h"
 
 char *ref_str; /* •Ô‚è’l•¶Žš—ñ */
@@ -25,6 +25,16 @@ static void *reffunc(int *type_res, int cmd)
 	code_next();
 
 	switch(cmd) {
+	case 0x00:
+		pv = code_getpval();
+		bufsize = code_geti();
+		pbuf = (char *)malloc(bufsize);
+		memcpy(pbuf, pv->pt, bufsize);
+		refbuf = (char *)malloc(24);
+		ref_str = hspmalloc(lstrlen(refbuf));
+		lstrcpy(ref_str, md5calc((unsigned char *)pbuf, bufsize));
+		*type_res = HSPVAR_FLAG_STR;
+		break;
 	case 0x10:
 		pv = code_getpval();
 		bufsize = code_geti();
