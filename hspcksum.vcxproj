@@ -77,13 +77,16 @@
   <ItemGroup>
     <ClCompile Include="hsp3plugin.cpp" />
     <ClCompile Include="hspcksum.cpp" />
+    <ClCompile Include="sha1.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="hsp3debug.h" />
     <ClInclude Include="hsp3plugin.h" />
     <ClInclude Include="hsp3struct.h" />
+    <ClInclude Include="hspcksum.h" />
     <ClInclude Include="hspvar_core.h" />
     <ClInclude Include="hspwnd.h" />
+    <ClInclude Include="sha1.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
