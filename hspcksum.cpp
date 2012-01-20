@@ -4,6 +4,7 @@
 #include "hsp3plugin.h"
 #include "sha1.h"
 #include "md5.h"
+#include "sha256.h"
 #include "hspcksum.h"
 
 char *ref_str; /* •Ô‚è’l•¶Žš—ñ */
@@ -14,7 +15,16 @@ unsigned int leftrotate (unsigned int val, int digits)
 	return (val << digits) | (val >> (8 * sizeof(unsigned int) - digits));
 }
 
+unsigned int rightrotate (unsigned int val, int digits)
+{
+	return (val >> digits) | (val << (8 * sizeof(unsigned int) - digits));
+}
+
 /* ŠÖ”’è‹` */
+#define Process(value) pv = code_getpval(); bufsize = code_geti(); pbuf = (char *)malloc(bufsize); \
+		memcpy(pbuf, pv->pt, bufsize); refbuf = (char *)malloc(256); ref_str = hspmalloc(lstrlen(refbuf)); \
+		lstrcpy(ref_str, (value));
+
 static void *reffunc(int *type_res, int cmd)
 {
 	PVal* pv; char *pbuf; int bufsize; char *refbuf;
@@ -26,23 +36,19 @@ static void *reffunc(int *type_res, int cmd)
 
 	switch(cmd) {
 	case 0x00:
-		pv = code_getpval();
-		bufsize = code_geti();
-		pbuf = (char *)malloc(bufsize);
-		memcpy(pbuf, pv->pt, bufsize);
-		refbuf = (char *)malloc(24);
-		ref_str = hspmalloc(lstrlen(refbuf));
-		lstrcpy(ref_str, md5calc((unsigned char *)pbuf, bufsize));
+		Process(md5calc((unsigned char *)pbuf, bufsize));
 		*type_res = HSPVAR_FLAG_STR;
 		break;
 	case 0x10:
-		pv = code_getpval();
-		bufsize = code_geti();
-		pbuf = (char *)malloc(bufsize);
-		memcpy(pbuf, pv->pt, bufsize);
-		refbuf = (char *)malloc(24);
-		ref_str = hspmalloc(lstrlen(refbuf));
-		lstrcpy(ref_str, sha1calc((unsigned char *)pbuf, bufsize));
+		Process(sha1calc((unsigned char *)pbuf, bufsize));
+		*type_res = HSPVAR_FLAG_STR;
+		break;
+	case 0x20:
+		Process(sha256calc((unsigned char *)pbuf, bufsize));
+		*type_res = HSPVAR_FLAG_STR;
+		break;
+	case 0x21:
+		Process(sha224calc((unsigned char *)pbuf, bufsize));
 		*type_res = HSPVAR_FLAG_STR;
 		break;
 	default:

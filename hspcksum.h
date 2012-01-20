@@ -7,6 +7,7 @@
 extern char hashbuf[256];
 
 unsigned int leftrotate (unsigned int, int);
+unsigned int rightrotate (unsigned int, int);
 static void *reffunc(int *, int);
 EXPORT void WINAPI hsp3cmdinit(HSP3TYPEINFO *);
 

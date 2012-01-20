@@ -3,6 +3,8 @@
 #include "sha1.h"
 #include "md5.h"
 
+extern char hashbuf[256];
+
 char* md5calc(unsigned char *inbuf, size_t bufsize)
 {
 	const unsigned int r[64] =
