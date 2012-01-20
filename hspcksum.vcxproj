@@ -74,6 +74,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="hspcksum.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="hsp3debug.h" />
+    <ClInclude Include="hsp3plugin.h" />
+    <ClInclude Include="hsp3struct.h" />
+    <ClInclude Include="hspvar_core.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
