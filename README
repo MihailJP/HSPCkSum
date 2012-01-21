@@ -1,0 +1,11 @@
+HSPCkSum - MD5/SHA1/SHA2 calculation DLL for Hot Soup Processor
+
+The following files are not in this repository. Put these files on this
+directory from HSP3 SDK before you can build.
+
+- hsp3plugin.cpp
+- hsp3debug.h
+- hsp3plugin.h
+- hsp3struct.h
+- hspvar_core.h
+- hspwnd.h
