@@ -11,7 +11,7 @@ SHA2のハッシュを計算することができるようになります。
 してください。
 
 【アンインストールのしかた】
-　「hspcksum.dll」「common\hspcksum.as」「common\hspcksum.hs」および
+　「hspcksum.dll」「common\hspcksum.as」「hsphelp\hspcksum.hs」および
 「sample\HSPCkSum」を削除します。
 
 【つかいかた】
