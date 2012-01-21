@@ -4,13 +4,12 @@
 #include "hspcksum.h"
 #include "sha1.h"
 
-extern char hashbuf[256];
+extern char hashbuf[HASHBUF_LENGTH];
 
 /* Padding */
 size_t padding(unsigned char *workbuf, unsigned char *inbuf, size_t bufsize, bool endian)
 {
 	size_t work_size = bufsize;
-	FILE *debugbuf = fopen("debug.buf", "w");
 
 	memset(workbuf, 0, sizeof(*workbuf));
 	memcpy(workbuf, inbuf, bufsize);
@@ -38,9 +37,6 @@ size_t padding(unsigned char *workbuf, unsigned char *inbuf, size_t bufsize, boo
 		workbuf[work_size + 6] = 0; workbuf[work_size + 7] = 0;
 	}
 	work_size += 8;
-
-	fwrite(workbuf, 1, work_size, debugbuf);
-	fclose(debugbuf);
 
 	return work_size;
 }

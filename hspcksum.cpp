@@ -5,10 +5,11 @@
 #include "sha1.h"
 #include "md5.h"
 #include "sha256.h"
+#include "sha512.h"
 #include "hspcksum.h"
 
 char *ref_str; /* •Ô‚è’l•¶Žš—ñ */
-char hashbuf[256]; /* ƒnƒbƒVƒ…‚ðŠi”[ */
+char hashbuf[HASHBUF_LENGTH]; /* ƒnƒbƒVƒ…‚ðŠi”[ */
 
 unsigned int leftrotate (unsigned int val, int digits)
 {
@@ -39,16 +40,24 @@ static void *reffunc(int *type_res, int cmd)
 		Process(md5calc((unsigned char *)pbuf, bufsize));
 		*type_res = HSPVAR_FLAG_STR;
 		break;
-	case 0x10:
+	case 0x08:
 		Process(sha1calc((unsigned char *)pbuf, bufsize));
 		*type_res = HSPVAR_FLAG_STR;
 		break;
-	case 0x20:
+	case 0x0c:
 		Process(sha256calc((unsigned char *)pbuf, bufsize));
 		*type_res = HSPVAR_FLAG_STR;
 		break;
-	case 0x21:
+	case 0x0d:
 		Process(sha224calc((unsigned char *)pbuf, bufsize));
+		*type_res = HSPVAR_FLAG_STR;
+		break;
+	case 0x0e:
+		Process(sha512calc((unsigned char *)pbuf, bufsize));
+		*type_res = HSPVAR_FLAG_STR;
+		break;
+	case 0x0f:
+		Process(sha384calc((unsigned char *)pbuf, bufsize));
 		*type_res = HSPVAR_FLAG_STR;
 		break;
 	default:

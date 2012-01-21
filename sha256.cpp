@@ -4,7 +4,7 @@
 #include "sha256.h"
 #include "hspcksum.h"
 
-extern char hashbuf[256];
+extern char hashbuf[HASHBUF_LENGTH];
 
 void sha256_224_calc(unsigned char *inbuf, size_t bufsize, unsigned int* h)
 {

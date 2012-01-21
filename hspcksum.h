@@ -4,7 +4,8 @@
 #include <Windows.h>
 #include "hsp3plugin.h"
 
-extern char hashbuf[256];
+#define HASHBUF_LENGTH 256
+extern char hashbuf[HASHBUF_LENGTH];
 
 unsigned int leftrotate (unsigned int, int);
 unsigned int rightrotate (unsigned int, int);

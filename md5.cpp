@@ -3,7 +3,7 @@
 #include "sha1.h"
 #include "md5.h"
 
-extern char hashbuf[256];
+extern char hashbuf[HASHBUF_LENGTH];
 
 char* md5calc(unsigned char *inbuf, size_t bufsize)
 {
