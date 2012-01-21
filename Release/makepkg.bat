@@ -4,6 +4,8 @@ del /q hspcksum\hsphelp\*
 rmdir hspcksum\hsphelp
 del /q hspcksum\sample\*
 rmdir hspcksum\sample
+del /q hspcksum\sample\HSPCkSum\*
+rmdir hspcksum\sample\HSPCkSum
 del /q hspcksum\*
 del /q hspcksum.zip
 rmdir hspcksum
@@ -12,6 +14,7 @@ mkdir hspcksum
 mkdir hspcksum\common
 mkdir hspcksum\hsphelp
 mkdir hspcksum\sample
+mkdir hspcksum\sample\HSPCkSum
 
 copy hspcksum.dll hspcksum
 copy common\* hspcksum\common
