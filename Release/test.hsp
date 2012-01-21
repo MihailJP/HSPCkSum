@@ -1,0 +1,66 @@
+#runtime "hsp3cl"
+#include "hspcksum.as"
+
+print "Now, we are going to validate the implementation."
+print "For details see FIPS 180-2, at http://csrc.nist.gov/publications/fips/fips180-2/fips180-2withchangenotice.pdf."
+print ""
+
+print "Test vector: ASCII string \"abc\", 3 octets"
+
+string="abc"
+print " (MD5 sum): "+md5sum(string,3)
+print "(expected): 900150983cd24fb0d6963f7d28e17f72"
+print "  SHA1 sum: "+sha1sum(string,3)
+print "  expected: a9993e364706816aba3e25717850c26c9cd0d89d"
+print "SHA224 sum: "+sha224sum(string,3)
+print "  expected: 23097d223405d8228642a477bda255b32aadbce4bda0b3f7e36c9da7"
+print "SHA256 sum: "+sha256sum(string,3)
+print "  expected: ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
+print "SHA384 sum: "+sha384sum(string,3)
+print "  expected: cb00753f45a35e8bb5a03d699ac65007272c32ab0eded1631a8b605a43ff5bed8086072ba1e7cc2358baeca134c825a7"
+print "SHA512 sum: "+sha512sum(string,3)
+print "  expected: ddaf35a193617abacc417349ae20413112e6fa4e89a97ea20a9eeee64b55d39a2192992a274fc1a836ba3c23a3feebbd454d4423643ce80e2a9ac94fa54ca49f"
+print ""
+
+print "Test vector: ASCII string \"abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq\", 56 octets"
+
+string="abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq"
+print " (MD5 sum): "+md5sum(string,56)
+print "(expected): 8215ef0796a20bcaaae116d3876c664a"
+print "  SHA1 sum: "+sha1sum(string,56)
+print "  expected: 84983e441c3bd26ebaae4aa1f95129e5e54670f1"
+print "SHA224 sum: "+sha224sum(string,56)
+print "  expected: 75388b16512776cc5dba5da1fd890150b0c6455cb4f58b1952522525"
+print "SHA256 sum: "+sha256sum(string,56)
+print "  expected: 248d6a61d20638b8e5c026930c3e6039a33ce45964ff2167f6ecedd419db06c1"
+print ""
+
+print "Test vector: ASCII string \"abcdefghbcdefghicdefghijdefghijkefghijklfghijklmghijklmnhijklmnoijklmnopjklmnopqklmnopqrlmnopqrsmnopqrstnopqrstu\", 112 octets"
+
+string="abcdefghbcdefghicdefghijdefghijkefghijklfghijklmghijklmnhijklmnoijklmnopjklmnopqklmnopqrlmnopqrsmnopqrstnopqrstu"
+print "SHA384 sum: "+sha384sum(string,112)
+print "  expected: 09330c33f71147e83d192fc782cd1b4753111b173b3b05d22fa08086e3b0f712fcc7c71a557e2db966c3e9fa91746039"
+print "SHA512 sum: "+sha512sum(string,112)
+print "  expected: 8e959b75dae313da8cf4f72814fc143f8f7779c6eb9f7fa17299aeadb6889018501d289e4900f7e4331b99dec4b5433ac7d329eeb6dd26545e96e55b874be909"
+print ""
+
+print "Test vector: ASCII string which consists of one million times \"a\", 1,000,000 octets"
+
+print "Preparing the message. Please wait."
+sdim string, 1200000
+repeat 10000: string+="aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa": loop
+print " (MD5 sum): "+md5sum(string,1000000)
+print "(expected): 7707d6ae4e027c70eea2a935c2296f21"
+print "  SHA1 sum: "+sha1sum(string,1000000)
+print "  expected: 34aa973cd4c4daa4f61eeb2bdbad27316534016f"
+print "SHA224 sum: "+sha224sum(string,1000000)
+print "  expected: 20794655980c91d8bbb4c1ea97618a4bf03f42581948b2ee4ee7ad67"
+print "SHA256 sum: "+sha256sum(string,1000000)
+print "  expected: cdc76e5c9914fb9281a1c7e284d73e67f1809a48a497200e046d39ccc7112cd0"
+print "SHA384 sum: "+sha384sum(string,1000000)
+print "  expected: 9d0e1809716474cb086e834e310a4a1ced149e9c00f248527972cec5704c2a5b07b8b3dc38ecc4ebae97ddd87f3d8985"
+print "SHA512 sum: "+sha512sum(string,1000000)
+print "  expected: e718483d0ce769644e2e42c7bc15b4638e1f98b13b2044285632a803afa973ebde0ff244877ea60a4cb0432ce577c31beb009c5c2c49aa2e4eadb217ad8cc09b"
+print ""
+print "Finis."
+stop
