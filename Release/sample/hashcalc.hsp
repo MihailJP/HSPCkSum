@@ -1,0 +1,37 @@
+#include "hspcksum.as"
+
+; ファイルのハッシュを計算する
+
+	title "ハッシュ計算"
+	msgdat = "「ファイル読み込み」ボタンを押して、ファイルを読み込んでください\n"
+	objsize 640, 24
+	button "ファイル読み込み", *loadfile
+	mesbox msgdat, 640,480-24, 0: msgbox_id = stat
+	stop
+
+*loadfile
+	; ファイル選択
+	dialog "*", 16
+	if stat=0: stop
+	filename = refstr
+	msgdat="ファイル名: "+ filename + "\n"
+	; ファイルサイズを取得
+	exist refstr
+	filesize = strsize
+	if filesize = -1: msgdat+="ファイルが存在しません\n": stop
+	msgdat+="ファイルサイズ: "+ filesize + " バイト\n"
+	
+	; ファイル読み込み
+	sdim buf, filesize+256
+	bload filename, buf, filesize
+	
+	; ハッシュ計算
+	msgdat+="MD5: "+ md5sum(buf, filesize) + "\n"
+	msgdat+="SHA1: "+ sha1sum(buf, filesize) + "\n"
+	msgdat+="SHA224: "+ sha224sum(buf, filesize) + "\n"
+	msgdat+="SHA256: "+ sha256sum(buf, filesize) + "\n"
+	msgdat+="SHA384: "+ sha384sum(buf, filesize) + "\n"
+	msgdat+="SHA512: "+ sha512sum(buf, filesize) + "\n"
+	
+	objprm msgbox_id, msgdat
+	stop

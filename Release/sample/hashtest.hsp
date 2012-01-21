@@ -1,3 +1,5 @@
+; SHA Test vectors
+
 #runtime "hsp3cl"
 #include "hspcksum.as"
 
@@ -5,6 +7,7 @@ print "Now, we are going to validate the implementation."
 print "For details see FIPS 180-2, at http://csrc.nist.gov/publications/fips/fips180-2/fips180-2withchangenotice.pdf."
 print ""
 
+; Single-block message
 print "Test vector: ASCII string \"abc\", 3 octets"
 
 string="abc"
@@ -22,6 +25,7 @@ print "SHA512 sum: "+sha512sum(string,3)
 print "  expected: ddaf35a193617abacc417349ae20413112e6fa4e89a97ea20a9eeee64b55d39a2192992a274fc1a836ba3c23a3feebbd454d4423643ce80e2a9ac94fa54ca49f"
 print ""
 
+; Multi-block message
 print "Test vector: ASCII string \"abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq\", 56 octets"
 
 string="abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq"
@@ -44,6 +48,7 @@ print "SHA512 sum: "+sha512sum(string,112)
 print "  expected: 8e959b75dae313da8cf4f72814fc143f8f7779c6eb9f7fa17299aeadb6889018501d289e4900f7e4331b99dec4b5433ac7d329eeb6dd26545e96e55b874be909"
 print ""
 
+; Long message
 print "Test vector: ASCII string which consists of one million times \"a\", 1,000,000 octets"
 
 print "Preparing the message. Please wait."
