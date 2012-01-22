@@ -1,14 +1,4 @@
-del /q hspcksum\common\*
-rmdir hspcksum\common
-del /q hspcksum\hsphelp\*
-rmdir hspcksum\hsphelp
-del /q hspcksum\sample\*
-rmdir hspcksum\sample
-del /q hspcksum\sample\HSPCkSum\*
-rmdir hspcksum\sample\HSPCkSum
-del /q hspcksum\*
-del /q hspcksum.zip
-rmdir hspcksum
+rmdir /s /q hspcksum
 
 mkdir hspcksum
 mkdir hspcksum\common
